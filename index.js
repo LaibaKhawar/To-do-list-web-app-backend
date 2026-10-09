@@ -82,7 +82,12 @@ io.on('connection', (socket) => {
 });
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://laibakhawar:laiba1697@edistandard.7i80w.mongodb.net/todolist')
+if (!process.env.MONGO_URI) {
+    console.error('MONGO_URI is not set. Copy .env.example to .env and provide a MongoDB connection string.');
+    process.exit(1);
+}
+
+mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('Connected to MongoDB');
 
